@@ -45,4 +45,8 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 		UCameraComponent* Camera;
+
+private:
+	bool IsMovingFront;
+	bool IsMovingRight;
 };

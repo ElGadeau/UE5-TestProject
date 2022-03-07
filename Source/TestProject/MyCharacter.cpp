@@ -1,6 +1,7 @@
 
 #include "MyCharacter.h"
 
+#include "KnightAnimInstance.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
@@ -36,6 +37,9 @@ void AMyCharacter::BeginPlay()
 void AMyCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	UKnightAnimInstance* AnimInstance = Cast<UKnightAnimInstance>(GetMesh()->GetAnimInstance());
+	AnimInstance->SetIsWalking(IsMovingFront || IsMovingRight);
 }
 
 // Called to bind functionality to input
@@ -52,6 +56,15 @@ void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompone
 
 void AMyCharacter::MoveForward(const float Value)
 {
+	if (Value != 0)
+	{
+		IsMovingFront = true;
+	}
+	else
+	{
+		IsMovingFront = false;
+	}
+
 	const FRotator Rotation = Controller->GetControlRotation();
 	const FRotator YawRotation(0.f, Rotation.Yaw, 0.f);
 
@@ -64,6 +77,15 @@ void AMyCharacter::MoveForward(const float Value)
 
 void AMyCharacter::MoveRight(const float Value)
 {
+	if (Value != 0)
+	{
+		IsMovingRight = true;
+	}
+	else
+	{
+		IsMovingRight = false;
+	}
+
 	const FRotator Rotation = Controller->GetControlRotation();
 	const FRotator YawRotation(0, Rotation.Yaw, 0);
 
