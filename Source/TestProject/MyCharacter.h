@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "KnightAnimInstance.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/Character.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -28,10 +29,16 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	// Character Movements
 	void MoveForward(float Value);
 	void MoveRight(float Value);
+
+	void Jump();
+
+	// Camera Movements
 	void LookVertical(float Value);
 	void LookHorizontal(float Value);
+
 	void ZoomCamera(float Value);
 
 	UPROPERTY(EditAnywhere, Category = "Asset")
@@ -49,4 +56,6 @@ public:
 private:
 	bool IsMovingFront;
 	bool IsMovingRight;
+
+	UKnightAnimInstance* AnimInstance;
 };

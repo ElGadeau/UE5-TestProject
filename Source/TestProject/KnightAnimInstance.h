@@ -16,9 +16,12 @@ class TESTPROJECT_API UKnightAnimInstance : public UAnimInstance
 
 public:
 	void SetIsWalking(bool value);
+	void SetIsJumping(bool value);
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
 		bool IsWalking;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Movement)
+		bool IsJumping;
 };

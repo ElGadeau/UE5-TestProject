@@ -1,7 +1,6 @@
 
 #include "MyCharacter.h"
 
-#include "KnightAnimInstance.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
@@ -31,6 +30,7 @@ AMyCharacter::AMyCharacter()
 void AMyCharacter::BeginPlay()
 {
 	Super::BeginPlay();
+	AnimInstance = Cast<UKnightAnimInstance>(GetMesh()->GetAnimInstance());
 }
 
 // Called every frame
@@ -38,7 +38,6 @@ void AMyCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	UKnightAnimInstance* AnimInstance = Cast<UKnightAnimInstance>(GetMesh()->GetAnimInstance());
 	AnimInstance->SetIsWalking(IsMovingFront || IsMovingRight);
 }
 
@@ -46,6 +45,8 @@ void AMyCharacter::Tick(float DeltaTime)
 void AMyCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AMyCharacter::Jump);
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &AMyCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AMyCharacter::MoveRight);
@@ -91,6 +92,13 @@ void AMyCharacter::MoveRight(const float Value)
 
 	const FVector Direction = FRotationMatrix(YawRotation).GetScaledAxis(EAxis::Y);
 	AddMovementInput(Direction, Value);
+}
+
+void AMyCharacter::Jump()
+{
+	Super::Jump();
+
+	AnimInstance->SetIsJumping(true);
 }
 
 void AMyCharacter::LookVertical(float Value)
